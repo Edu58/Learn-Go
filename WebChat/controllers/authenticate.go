@@ -23,7 +23,7 @@ func authSignUp(w http.ResponseWriter, r *http.Request) {
 	}
 
 	user := &data.User{
-		Name:     "",
+		Name:     r.PostFormValue("name"),
 		Email:    r.PostFormValue("email"),
 		Password: string(hashedPassword),
 	}
@@ -46,25 +46,33 @@ func authSignIn(w http.ResponseWriter, r *http.Request) {
 	user, err := data.GetUserByEmail(r.PostFormValue("email"))
 	if err != nil {
 		log.Println(err)
+		http.Redirect(w, r, "/signin", http.StatusFound)
+		return
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(r.PostFormValue("password")))
 
 	if err != nil {
 		log.Println(err)
+		http.Redirect(w, r, "/signin", http.StatusFound)
+		return
 	}
 
 	if user.Email == r.PostFormValue("email") {
 		session, err := user.CreateSession()
-		log.Println(session)
 		if err != nil {
 			log.Println(err)
 		}
-		http.SetCookie(w, &http.Cookie{
-			Name:     "_cookie",
+
+		cookie := &http.Cookie{
+			Name:     "_webchat",
 			Value:    session.Uuid,
 			HttpOnly: true,
-		})
+		}
+
+		http.SetCookie(w, cookie)
+		r.AddCookie(cookie)
+
 		http.Redirect(w, r, "/", http.StatusFound)
 	} else {
 		http.Redirect(w, r, "/signin", http.StatusFound)

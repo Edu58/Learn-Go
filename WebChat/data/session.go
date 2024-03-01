@@ -16,7 +16,7 @@ type Session struct {
 //
 // It takes no parameters and returns a Session and an error.
 func (user *User) CreateSession() (session Session, err error) {
-	statement := "INSERT INTO sessions (email, user_id, created_at) VALUES ($1, $2, $3) RETURNING id, email, user_id, created_at"
+	statement := "INSERT INTO sessions (email, user_id, created_at) VALUES ($1, $2, $3) ON CONFLICT (user_id) DO UPDATE SET email=excluded.email RETURNING id, email, user_id, created_at"
 	stmt, err := Db.Prepare(statement)
 	if err != nil {
 		return

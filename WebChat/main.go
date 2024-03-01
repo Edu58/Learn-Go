@@ -28,10 +28,12 @@ func main() {
 func authMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// Our middleware logic goes here...
-		cookie, err := r.Cookie("_cookie")
-		if err != nil {
-			log.Println(err)
+		cookie, err := r.Cookie("_webchat")
+
+		if err != nil || cookie == nil {
+			log.Println("Error Getting Cookie")
 			http.Redirect(w, r, "/signin", http.StatusFound)
+			return
 		}
 
 		session := data.Session{
@@ -44,6 +46,7 @@ func authMiddleware(next http.Handler) http.Handler {
 			next.ServeHTTP(w, r)
 		} else {
 			http.Redirect(w, r, "/signin", http.StatusFound)
+			return
 		}
 	})
 }

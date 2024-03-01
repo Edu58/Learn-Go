@@ -27,7 +27,7 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 }
 
 func SignOut(w http.ResponseWriter, r *http.Request) {
-	cookie, err := r.Cookie("_cookie")
+	cookie, err := r.Cookie("_webchat")
 	if err != nil {
 		log.Fatalln(err)
 		return
