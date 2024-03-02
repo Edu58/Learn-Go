@@ -13,7 +13,7 @@ type User struct {
 	Created_at time.Time
 }
 
-func (user *User) CreateUser() (error error) {
+func (user *User) CreateUser() (err error) {
 	statement := "INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING id, created_at"
 	stmt, err := Db.Prepare(statement)
 
@@ -36,9 +36,14 @@ func (user *User) CreateUser() (error error) {
 	return
 }
 
+func GetUserById(id string) (user User, err error) {
+	user = User{}
+	err = Db.QueryRow("SELECT id, name, email, password, created_at FROM users WHERE id = $1", id).Scan(&user.Uuid, &user.Name, &user.Email, &user.Password, &user.Created_at)
+	return
+}
+
 func GetUserByEmail(email string) (user User, err error) {
 	user = User{}
 	err = Db.QueryRow("SELECT id, name, email, password, created_at FROM users WHERE email = $1", email).Scan(&user.Uuid, &user.Name, &user.Email, &user.Password, &user.Created_at)
 	return
-
 }

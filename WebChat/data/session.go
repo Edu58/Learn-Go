@@ -15,6 +15,13 @@ type Session struct {
 // CreateSession creates a new session for the user.
 //
 // It takes no parameters and returns a Session and an error.
+func (sess *Session) GetSessionById() (session Session, err error) {
+	session = Session{}
+	statement := "SELECT id, email, user_id, created_at FROM sessions WHERE id=$1"
+	err = Db.QueryRow(statement, sess.Uuid).Scan(&session.Uuid, &session.Email, &session.UserId, &session.Created_at)
+	return
+}
+
 func (user *User) CreateSession() (session Session, err error) {
 	statement := "INSERT INTO sessions (email, user_id, created_at) VALUES ($1, $2, $3) ON CONFLICT (user_id) DO UPDATE SET email=excluded.email RETURNING id, email, user_id, created_at"
 	stmt, err := Db.Prepare(statement)

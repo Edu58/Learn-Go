@@ -71,7 +71,6 @@ func authSignIn(w http.ResponseWriter, r *http.Request) {
 		}
 
 		http.SetCookie(w, cookie)
-		r.AddCookie(cookie)
 
 		http.Redirect(w, r, "/", http.StatusFound)
 	} else {

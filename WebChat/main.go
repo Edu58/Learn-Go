@@ -16,10 +16,13 @@ func main() {
 	files := http.FileServer(http.Dir("./public"))
 	mux.Handle("/static/", http.StripPrefix("/static/", files))
 
-	mux.Handle("/", authMiddleware(http.HandlerFunc(controllers.Index)))
 	mux.HandleFunc("/signup", controllers.SignUp)
 	mux.HandleFunc("/signin", controllers.SignIn)
 	mux.HandleFunc("/signout", controllers.SignOut)
+
+	mux.Handle("/", authMiddleware(http.HandlerFunc(controllers.Index)))
+	mux.Handle("/thread/new", authMiddleware(http.HandlerFunc(controllers.CreateThread)))
+	mux.Handle("/err", authMiddleware(http.HandlerFunc(controllers.Err)))
 
 	log.Print("Starting server on port 8000")
 	log.Fatalln(http.ListenAndServe(":8000", mux))
