@@ -1,8 +1,6 @@
 package controllers
 
 import (
-	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 
@@ -17,9 +15,6 @@ func Index(w http.ResponseWriter, r *http.Request) {
 		log.Fatalln(err)
 		utils.SendError(w, r, "Could not get threads")
 	}
-
-	jsonData, _ := json.MarshalIndent(threads, "", "  ")
-	fmt.Println(string(jsonData))
 
 	utils.GenerateHTML(w, threads, "base", "index", "private.navbar")
 }

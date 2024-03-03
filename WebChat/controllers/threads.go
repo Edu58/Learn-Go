@@ -8,6 +8,19 @@ import (
 	"github.com/Edu58/Learn-Go/WebChat/utils"
 )
 
+func Thread(w http.ResponseWriter, r *http.Request) {
+	vals := r.URL.Query()
+
+	thread, err := data.GetThreadById(vals.Get("id"))
+
+	if err != nil {
+		log.Println(err)
+		utils.SendError(w, r, "Could not load thread")
+	}
+
+	utils.GenerateHTML(w, &thread, "base", "private.navbar", "private.thread")
+}
+
 func CreateThread(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":

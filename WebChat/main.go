@@ -21,6 +21,7 @@ func main() {
 	mux.HandleFunc("/signout", controllers.SignOut)
 
 	mux.Handle("/", authMiddleware(http.HandlerFunc(controllers.Index)))
+	mux.Handle("/thread", authMiddleware(http.HandlerFunc(controllers.Thread)))
 	mux.Handle("/thread/new", authMiddleware(http.HandlerFunc(controllers.CreateThread)))
 	mux.Handle("/err", authMiddleware(http.HandlerFunc(controllers.Err)))
 

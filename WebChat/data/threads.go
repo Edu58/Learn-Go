@@ -58,3 +58,15 @@ func (thread *Thread) CreateThread() (err error) {
 
 	return
 }
+
+func GetThreadById(id string) (thread Threads, err error) {
+	statement := "SELECT t.id, u.name, t.title, t.created_at FROM threads t JOIN users u ON u.id = t.user_id WHERE t.id = $1"
+
+	err = Db.QueryRow(statement, id).Scan(&thread.Uuid, &thread.User.Name, &thread.Title, &thread.CreatedAt)
+
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	return
+}

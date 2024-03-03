@@ -9,9 +9,9 @@
         <span class="lead"> <i class="fa fa-comment-o"></i> {{ .Title }}</span>
     </div>
     <div class="panel-body">
-        Started by {{ .User.Name }} - {{ .CreatedAt }}
+        Started by {{ .User.Name }} - {{ .CreatedAt | fDate }}
         <div class="pull-right">
-            <a href="/thread/read?thread={{.Uuid }}">Read more</a>
+            <a href="/thread?id={{.Uuid }}">Read more</a>
         </div>
     </div>
 </div>
