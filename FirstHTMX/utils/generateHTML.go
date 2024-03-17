@@ -1,8 +1,8 @@
 package utils
 
 import (
-	"html/template"
 	"net/http"
+	"text/template"
 	"time"
 )
 
@@ -17,6 +17,9 @@ func GenerateHTML(w http.ResponseWriter, data interface{}, filenames ...string) 
 		files = append(files, "templates/"+file+".html")
 	}
 
-	templates := template.Must(template.ParseFiles(files...))
+	templates := template.Must(template.New("").Funcs(
+		template.FuncMap{
+			"fDate": formatDate,
+		}).ParseFiles(files...))
 	templates.ExecuteTemplate(w, "layout", data)
 }
