@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 	"net"
+	"time"
 
 	"github.com/Edu58/Learn-Go/GRPCTutorial/invoicer"
 	"google.golang.org/grpc"
@@ -13,10 +14,13 @@ type myInvoicerServer struct {
 	invoicer.UnimplementedInvoicerServer
 }
 
-func (s myInvoicerServer) Create(context.Context, *invoicer.CreateRequest) (*invoicer.CreateResponse, error) {
+func (s myInvoicerServer) Create(_ context.Context, req *invoicer.CreateRequest) (*invoicer.CreateResponse, error) {
+	log.Printf("RECEIVED REQUEST FOR AMOUNT %d FROM %s to %s", req.Amount.Amount, req.From, req.To)
+	log.Printf("PROCESSING CREATE REQUEST at %s", time.Now())
+
 	return &invoicer.CreateResponse{
-		Pdf:  []byte("test"),
-		Docx: []byte("document"),
+		Pdf:  []byte("test RESPONSE"),
+		Docx: []byte("document RESPONSE"),
 	}, nil
 }
 
