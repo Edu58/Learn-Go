@@ -14,7 +14,7 @@ type myInvoicerServer struct {
 	invoicer.UnimplementedInvoicerServer
 }
 
-func (s myInvoicerServer) Create(_ context.Context, req *invoicer.CreateRequest) (*invoicer.CreateResponse, error) {
+func (s *myInvoicerServer) Create(_ context.Context, req *invoicer.CreateRequest) (*invoicer.CreateResponse, error) {
 	log.Printf("RECEIVED REQUEST FOR AMOUNT %d FROM %s to %s", req.Amount.Amount, req.From, req.To)
 	log.Printf("PROCESSING CREATE REQUEST at %s", time.Now())
 

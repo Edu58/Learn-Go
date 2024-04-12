@@ -5,6 +5,6 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/ws", wsEndpoint)
+	http.HandleFunc("/ws", WsEndpoint)
 	http.ListenAndServe("0.0.0.0:8084", nil)
 }

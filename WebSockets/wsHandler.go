@@ -31,7 +31,7 @@ func reader(conn *websocket.Conn) {
 	}
 }
 
-func wsEndpoint(w http.ResponseWriter, r *http.Request) {
+func WsEndpoint(w http.ResponseWriter, r *http.Request) {
 	ws, err := upgrader.Upgrade(w, r, nil)
 
 	if err != nil {
@@ -40,5 +40,5 @@ func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 
 	log.Println("Websocket Connected")
 
-	reader(ws)
+	go reader(ws)
 }
