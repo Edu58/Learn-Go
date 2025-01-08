@@ -1,0 +1,18 @@
+{{ define "content" }}
+
+<form class="form-signin center" role="form" action="/signup" method="post">
+    <h2 class="form-signin-heading">
+        <i class="fa fa-comments-o">
+            WebChat
+        </i>
+    </h2>
+    <input type="text" name="name" class="form-control" placeholder="Full Name" required autofocus>
+    <input type="email" name="email" class="form-control" placeholder="Email address" required>
+    <input type="password" name="password" class="form-control" placeholder="Password" required>
+    <br />
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+    <br />
+    <a class="lead pull-right" href="/signin">Sign in</a>
+</form>
+
+{{ end }}
