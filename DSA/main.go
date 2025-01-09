@@ -40,8 +40,14 @@ func main() {
 	var tree = trees.BinaryTree{}
 	tree.InsertElement(4)
 	tree.InsertElement(2)
+	tree.InsertElement(1)
 	tree.InsertElement(6)
 	tree.InsertElement(3)
 	tree.InsertElement(9)
 	tree.InOrderTraversal()
+	tree.MinNode()
+	tree.MaxNode()
+	// search := tree.SearchNode(4)
+
+	// fmt.Printf("SEARCH RESULT: %t\n", inorder)
 }

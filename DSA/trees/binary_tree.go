@@ -66,6 +66,7 @@ func (node *Node) inOrderTraversal() {
 	if node.rightNode != nil {
 		node.rightNode.inOrderTraversal()
 	}
+	fmt.Println("ended")
 }
 
 func (node *Node) preOrderTraversal() {
@@ -89,20 +90,76 @@ func (node *Node) postOrderTraversal() {
 	fmt.Println(node.key)
 }
 
-// func inOrderTraversal(root *Node) []int {
-// 	if root == nil {
-// 		return nil
-// 	}
+func (tree *BinaryTree) MinNode() *int {
+	tree.lock.RLock()
+	defer tree.lock.RUnlock()
 
-// 	left := inOrderTraversal(root.leftNode)
-// 	right := inOrderTraversal(root.rightNode)
+	treeNode := tree.rootNode
 
-// 	output := make([]int, 0)
+	if treeNode == nil {
+		return nil
+	}
 
-// 	fmt.Println("ASDASD")
+	for {
+		if treeNode.leftNode == nil {
+			return &treeNode.key
+		}
+		treeNode = treeNode.leftNode
+	}
+}
 
-// 	output = append(output, left...)
-// 	output = append(output, root.key)
-// 	output = append(output, right...)
-// 	return output
-// }
+func (tree *BinaryTree) MaxNode() *int {
+	tree.lock.RLock()
+	defer tree.lock.RUnlock()
+
+	treeNode := tree.rootNode
+
+	if treeNode == nil {
+		return nil
+	}
+
+	for {
+		if treeNode.rightNode == nil {
+			return &treeNode.key
+		}
+		treeNode = treeNode.rightNode
+	}
+}
+
+func (tree *BinaryTree) SearchNode(key int) bool {
+	tree.lock.RLock()
+	defer tree.lock.RUnlock()
+
+	node := tree.rootNode
+
+	if node == nil {
+		return false
+	}
+
+	for {
+		if node.key == key {
+			return true
+		}
+
+		fmt.Printf("CHECKING %d < %d\n", node.key, key)
+
+		if key < node.key {
+			if node.leftNode != nil {
+				node = node.leftNode
+			}
+		} else {
+			if node.rightNode != nil {
+				node = node.rightNode
+			}
+		}
+
+		return false
+	}
+}
+
+func (tree *BinaryTree) RemoveNode(key int) {
+	tree.lock.Lock()
+	defer tree.lock.Unlock()
+
+	
+}
