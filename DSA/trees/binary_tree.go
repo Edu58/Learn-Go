@@ -66,7 +66,6 @@ func (node *Node) inOrderTraversal() {
 	if node.rightNode != nil {
 		node.rightNode.inOrderTraversal()
 	}
-	fmt.Println("ended")
 }
 
 func (node *Node) preOrderTraversal() {
@@ -161,5 +160,51 @@ func (tree *BinaryTree) RemoveNode(key int) {
 	tree.lock.Lock()
 	defer tree.lock.Unlock()
 
-	
+	removeNode(tree.rootNode, key)
+	tree.rootNode.inOrderTraversal()
+}
+
+func removeNode(node *Node, key int) *Node {
+	if node == nil {
+		return nil
+	}
+
+	if key < node.key {
+		node.leftNode = removeNode(node.leftNode, key)
+		return node
+	}
+
+	if key > node.key {
+		node.rightNode = removeNode(node.rightNode, key)
+		return node
+	}
+
+	if node.leftNode == nil && node.rightNode == nil {
+		node = nil
+		return nil
+	}
+
+	if node.leftNode == nil {
+		node = node.rightNode
+		return node
+	}
+
+	if node.rightNode == nil {
+		node = node.leftNode
+		return node
+	}
+
+	// Find a replacement since node has left and right child nodes
+	leftMostRightNode := node.rightNode
+	for {
+		//find smallest value on the right side
+		if leftMostRightNode != nil && leftMostRightNode.leftNode != nil {
+			leftMostRightNode = leftMostRightNode.leftNode
+		} else {
+			break
+		}
+	}
+
+	node.rightNode = removeNode(node.rightNode, leftMostRightNode.key)
+	return node
 }

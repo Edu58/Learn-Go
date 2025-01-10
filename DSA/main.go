@@ -44,10 +44,11 @@ func main() {
 	tree.InsertElement(6)
 	tree.InsertElement(3)
 	tree.InsertElement(9)
-	tree.InOrderTraversal()
+	// tree.InOrderTraversal()
 	tree.MinNode()
 	tree.MaxNode()
 	// search := tree.SearchNode(4)
+	tree.RemoveNode(6)
 
 	// fmt.Printf("SEARCH RESULT: %t\n", inorder)
 }
