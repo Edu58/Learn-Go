@@ -1,11 +1,11 @@
-package main
+package runes
 
 import (
 	"fmt"
 	"time"
 )
 
-func main() {
+func test_rune() {
 	var randString = []rune("489234")
 	fmt.Println(string(randString))
 	fmt.Println(time.Now().UnixNano())
